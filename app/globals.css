@@ -29,6 +29,11 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
   }
 
   .dark {
@@ -56,6 +61,11 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
   }
 }
 
@@ -63,7 +73,31 @@
   * {
     @apply border-border;
   }
+
+  /* Updated body styling for base background */
   body {
+    position: relative;
     @apply bg-background text-foreground;
+    background-attachment: fixed; /* Keep the background fixed */
+  }
+
+  body::before {
+    content: "";
+    position: fixed; /* Use fixed positioning for the pseudo-element */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/mood_bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25; /* Set the desired opacity */
+    z-index: -1; /* Ensure it stays behind the content */
+  }
+
+  /* Ensure that content is positioned above the background */
+  #__next {
+    position: relative;
+    z-index: 1;
   }
 }
