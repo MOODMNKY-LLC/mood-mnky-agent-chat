@@ -119,7 +119,7 @@ export function AgentBento_4x4Dark() {
           </div>
           <CardFooter className="flex justify-center">
             <ShimmerButton className="mt-4" onClick={() => handleInteractClick(agent.chatflowId)}>
-              Interact
+              Activate  {/* Changed from "Interact" to "Activate" */}
             </ShimmerButton>
           </CardFooter>
         </Card>
