@@ -37,12 +37,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
+          <main className="min-h-screen flex flex-col items-center justify-center">
+            <div className="flex-1 w-full flex flex-col items-center">
               <nav className="sticky top-0 w-full flex justify-center h-16 backdrop-blur-md bg-black/70 border-b border-white/10 z-50 shadow-lg">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
+                <div className="w-full max-w-5xl flex justify-between items-center p-2 px-4 text-sm"> {/* Adjust padding here */}
                   <div className="flex gap-5 items-center font-semibold">
-                    <Link href="https://agent-chat.moodmnky.com">
+                    <a href="/" className="focus:outline-none">
                       <Image
                         src="/mood_mnky_brand.svg"
                         alt="MOOD MNKY Logo"
@@ -50,18 +50,18 @@ export default function RootLayout({
                         height={80}
                         className="mr-4"
                       />
-                    </Link>
+                    </a>
                   </div>
                   <div className="flex items-center gap-2">
                     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
                   </div>
                 </div>
               </nav>
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
+              <div className="flex flex-col items-center w-full p-5"> {/* Center children */}
                 {children}
               </div>
 
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
+              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-4"> {/* Adjust padding here */}
                 <p>
                   Powered by{" "}
                   <a
