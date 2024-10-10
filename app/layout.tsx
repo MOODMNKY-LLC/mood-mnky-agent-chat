@@ -6,7 +6,6 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
-import ShimmerButton from "@/components/ui/shimmer-button";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -45,9 +44,7 @@ export default function RootLayout({
                       height={80}
                       className="mr-4"
                     />
-                    <ShimmerButton as="a" href="https://shop.moodmnky.com">
-                      Shop MOOD MNKY
-                    </ShimmerButton>
+                    {/* Removed ShimmerButton */}
                   </div>
                   <div className="flex items-center gap-2">
                     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
