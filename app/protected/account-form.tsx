@@ -70,53 +70,14 @@ export default function AccountForm({ user }: { user: User }) {
     }
   }
 
-  // Function to handle avatar upload
-  const handleAvatarUpload = async (event: any) => {
-    console.log('File upload triggered')
-    const file = event.target.files[0]
-    if (!file) return
-
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${user?.id}.${fileExt}`
-    const filePath = `avatars/${fileName}`
-
-    const { error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(filePath, file, { upsert: true })
-
-    if (uploadError) {
-      alert('Error uploading avatar!')
-      console.error('Upload error:', uploadError)
-      return
-    }
-
-    const { data: publicUrlData, error: urlError } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(filePath)
-
-    if (urlError) {
-      alert('Error fetching public URL!')
-      console.error('Public URL error:', urlError)
-      return
-    }
-
-    console.log('File uploaded successfully, public URL:', publicUrlData?.publicUrl)
-
-    setAvatarUrl(publicUrlData?.publicUrl || '')
-
-    // Update the profile with the new avatar URL
-    updateProfile({ username: username || '', website: website || '', avatar_url: publicUrlData?.publicUrl || '' })
-  }
-
   return (
-    <Card style={{ width: '100%', maxWidth: '500px', margin: 'auto' }} className="bg-black bg-opacity-60 backdrop-filter backdrop-blur-lg text-white border-zinc-800 shadow-2xl mt-8">
+    <Card style={{ width: '100%', maxWidth: '800px' }} className="bg-black bg-opacity-60 backdrop-filter backdrop-blur-lg text-white border-zinc-800 shadow-2xl">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">MNKY DOJO Profile</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center mb-6">
-          {/* Avatar component */}
-          <div className="w-32 h-32 rounded-full overflow-hidden mb-4 flex items-center justify-center border-2 border-zinc-700 bg-zinc-900">
+          <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-zinc-800 flex items-center justify-center border-2 border-zinc-700">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
@@ -127,22 +88,9 @@ export default function AccountForm({ user }: { user: User }) {
               <Upload className="w-12 h-12 text-zinc-500" />
             )}
           </div>
-          <label htmlFor="avatarUpload" className="cursor-pointer">
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-black bg-opacity-50 text-white border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-200"
-            >
-              UPLOAD AVATAR
-            </Button>
-            <input
-              type="file"
-              id="avatarUpload"
-              accept="image/*"
-              className="hidden"
-              onChange={handleAvatarUpload}
-            />
-          </label>
+          <Button variant="outline" size="sm" className="bg-black bg-opacity-50 text-white border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-200">
+            UPLOAD AVATAR
+          </Button>
         </div>
         <div className="space-y-4">
           <div>
