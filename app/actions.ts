@@ -49,6 +49,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
+  // Redirect to the protected page after successful login
   return redirect("/protected");
 };
 

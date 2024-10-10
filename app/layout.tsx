@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <Head>
         <title>MOOD MNKY: Agent Chat</title>
-        <link rel="icon" type="image/png" href="/favicon.png" /> {/* Add the favicon here */}
+        <link rel="icon" type="image/png" href="/favicon.png" />{/* Add the favicon here */}
       </Head>
       <body className="bg-background text-foreground">
         <ThemeProvider
@@ -42,13 +42,15 @@ export default function RootLayout({
               <nav className="sticky top-0 w-full flex justify-center h-16 backdrop-blur-md bg-black/70 border-b border-white/10 z-50 shadow-lg">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
-                    <Image
-                      src="/mood_mnky_brand.svg"
-                      alt="MOOD MNKY Logo"
-                      width={80}
-                      height={80}
-                      className="mr-4"
-                    />
+                    <Link href="https://agent-chat.moodmnky.com">
+                      <Image
+                        src="/mood_mnky_brand.svg"
+                        alt="MOOD MNKY Logo"
+                        width={80}
+                        height={80}
+                        className="mr-4"
+                      />
+                    </Link>
                   </div>
                   <div className="flex items-center gap-2">
                     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
