@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <Head>
         <title>MOOD MNKY: Agent Chat</title>
-        <link rel="icon" href="/favicon.png" /> {/* Add the favicon here */}
+        <link rel="icon" type="image/png" href="/favicon.png" /> {/* Add the favicon here */}
       </Head>
       <body className="bg-background text-foreground">
         <ThemeProvider
