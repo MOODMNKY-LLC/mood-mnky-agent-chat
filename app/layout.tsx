@@ -6,6 +6,7 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";  // Import Next.js Head component
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -25,6 +26,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <Head>
+        <title>MOOD MNKY: Agent Chat</title>
+        <link rel="icon" href="/favicon.ico" /> {/* Add the favicon here */}
+      </Head>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
@@ -44,7 +49,6 @@ export default function RootLayout({
                       height={80}
                       className="mr-4"
                     />
-                    {/* Removed ShimmerButton */}
                   </div>
                   <div className="flex items-center gap-2">
                     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
@@ -59,7 +63,7 @@ export default function RootLayout({
                 <p>
                   Powered by{" "}
                   <a
-                    href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+                    href="https://shop.moodmnky.com"
                     target="_blank"
                     className="font-bold hover:underline"
                     rel="noreferrer"
