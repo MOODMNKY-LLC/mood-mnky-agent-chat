@@ -83,7 +83,7 @@ export default function AccountForm({ user }: { user: User }) {
             uid={user?.id ?? null}
             url={avatarUrl}  // Pass the current avatar URL
             size={150}
-            onUpload={(event, filePath) => {
+            onUpload={(filePath) => {  // Adjusted to take a single argument
               setAvatarUrl(filePath)  // Update avatar URL state after upload
               updateProfile({ username: username || '', website: website || '', avatar_url: filePath })  // Update the profile in Supabase with the new avatar URL
             }}
