@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload } from 'lucide-react'
+import Avatar from './avatar'  // Make sure to import your Avatar component
 
 interface ProfileData {
   username: string
@@ -77,20 +78,16 @@ export default function AccountForm({ user }: { user: User }) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center mb-6">
-          <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-zinc-800 flex items-center justify-center border-2 border-zinc-700">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt="Avatar"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <Upload className="w-12 h-12 text-zinc-500" />
-            )}
-          </div>
-          <Button variant="outline" size="sm" className="bg-black bg-opacity-50 text-white border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-200">
-            UPLOAD AVATAR
-          </Button>
+          {/* Render Avatar component here */}
+          <Avatar
+            uid={user?.id ?? null}
+            url={avatarUrl}  // Pass the current avatar URL
+            size={150}
+            onUpload={(event, filePath) => {
+              setAvatarUrl(filePath)  // Update avatar URL state after upload
+              updateProfile({ username: username || '', website: website || '', avatar_url: filePath })  // Update the profile in Supabase with the new avatar URL
+            }}
+          />
         </div>
         <div className="space-y-4">
           <div>
