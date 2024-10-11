@@ -74,10 +74,14 @@ export default function AccountForm({ user }: { user: User }) {
 
   async function handleSignOut() {
     try {
-      await fetch('/auth/signout', { method: 'POST' })
-      router.push('/')
+      const response = await fetch('/auth/signout', { method: 'POST' });
+      if (!response.ok) {
+        throw new Error('Failed to sign out');
+      }
+      router.push('/');
     } catch (error) {
-      alert('Error signing out!')
+      console.error('Error signing out:', error);
+      alert('Error signing out!');
     }
   }
 
