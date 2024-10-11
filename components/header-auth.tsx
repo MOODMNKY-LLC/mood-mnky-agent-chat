@@ -54,6 +54,9 @@ export default async function AuthButton() {
           Sign out
         </Button>
       </form>
+      <Button asChild variant={"default"}>
+        <Link href="/profile">Profile</Link>
+      </Button>
     </div>
   ) : (
     <div className="flex gap-2">
