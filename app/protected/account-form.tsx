@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Upload } from 'lucide-react'
-import Avatar from './avatar'  // Make sure to import your Avatar component
+import { useRouter } from 'next/navigation'
+import Avatar from './avatar'
 
 interface ProfileData {
   username: string
@@ -18,6 +18,7 @@ interface ProfileData {
 
 export default function AccountForm({ user }: { user: User }) {
   const supabase = createClient()
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [fullname, setFullname] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
@@ -71,6 +72,15 @@ export default function AccountForm({ user }: { user: User }) {
     }
   }
 
+  async function handleSignOut() {
+    try {
+      await fetch('/auth/signout', { method: 'POST' })
+      router.push('/')
+    } catch (error) {
+      alert('Error signing out!')
+    }
+  }
+
   return (
     <Card style={{ width: '100%', maxWidth: '800px' }} className="bg-black bg-opacity-60 backdrop-filter backdrop-blur-lg text-white border-zinc-800 shadow-2xl">
       <CardHeader className="text-center">
@@ -78,14 +88,13 @@ export default function AccountForm({ user }: { user: User }) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center mb-6">
-          {/* Render Avatar component here */}
           <Avatar
             uid={user?.id ?? null}
-            url={avatarUrl}  // Pass the current avatar URL
+            url={avatarUrl}
             size={150}
-            onUpload={(filePath) => {  // Adjusted to take a single argument
-              setAvatarUrl(filePath)  // Update avatar URL state after upload
-              updateProfile({ username: username || '', website: website || '', avatar_url: filePath })  // Update the profile in Supabase with the new avatar URL
+            onUpload={(filePath) => {
+              setAvatarUrl(filePath)
+              updateProfile({ username: username || '', website: website || '', avatar_url: filePath })
             }}
           />
         </div>
@@ -129,11 +138,12 @@ export default function AccountForm({ user }: { user: User }) {
           >
             {isLoading ? 'UPDATING...' : 'UPDATE PROFILE'}
           </Button>
-          <form action="/auth/signout" method="post" className="mt-4">
-            <Button type="submit" variant="outline" className="w-full bg-zinc-800 bg-opacity-50 text-white border-zinc-700 hover:bg-zinc-700 hover:border-zinc-600 transition-all duration-200">
-              SIGN OUT
-            </Button>
-          </form>
+          <Button
+            onClick={handleSignOut}
+            className="w-full bg-zinc-800 bg-opacity-50 text-white border-zinc-700 hover:bg-zinc-700 hover:border-zinc-600 transition-all duration-200 mt-4"
+          >
+            SIGN OUT
+          </Button>
         </div>
       </CardContent>
     </Card>
