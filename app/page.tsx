@@ -24,7 +24,7 @@ export default function Index() {
       <BlurFade delay={0.2}>
         <Hero />
       </BlurFade>
-      <BlurIn word="Choose Your AI Assistant" className="text-4xl font-bold text-center my-8" duration={0.7} />
+      <BlurIn word="Meet The Agents Of MOOD MNKY" className="text-4xl font-bold text-center my-8" duration={0.7} />
       <main className="flex-1 flex flex-col gap-6 px-4">
         <BlurFade delay={0.4}>
           <AgentBento_4x4Dark />
