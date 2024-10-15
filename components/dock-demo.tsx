@@ -6,13 +6,11 @@ import { Button } from "@/components/ui/button"
 
 export function DockDemo() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-      <div className="bg-white/10 backdrop-blur-md rounded-full p-3 shadow-lg border border-white/20">
-        <div className="flex space-x-2">
-          <DockIcon icon={<Github className="h-6 w-6" />} label="GitHub" />
-          <DockIcon icon={<FileText className="h-6 w-6" />} label="Notion" />
-          <DockIcon icon={<MessageCircle className="h-6 w-6" />} label="WhatsApp" />
-        </div>
+    <div className="bg-white/10 backdrop-blur-md rounded-full p-3 shadow-lg border border-white/20">
+      <div className="flex space-x-2">
+        <DockIcon icon={<Github className="h-6 w-6" />} label="GitHub" />
+        <DockIcon icon={<FileText className="h-6 w-6" />} label="Notion" />
+        <DockIcon icon={<MessageCircle className="h-6 w-6" />} label="WhatsApp" />
       </div>
     </div>
   )

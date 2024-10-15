@@ -1,40 +1,128 @@
-'use client';
+"use client";
 
-import React from "react";
-import { Github, FileText, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { PropsWithChildren, useRef } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
-// DockDemo component that renders a dock with icons for GitHub, Notion, and WhatsApp
-export function DockDemo() {
-  return (
-    <div className="flex justify-center items-center">
-      <div className="flex space-x-2 bg-white/10 backdrop-blur-md rounded-full p-3 shadow-lg border border-white/20">
-        <DockIcon icon={<Github className="h-6 w-6" />} label="GitHub" />
-        <DockIcon icon={<FileText className="h-6 w-6" />} label="Notion" />
-        <DockIcon icon={<MessageCircle className="h-6 w-6" />} label="WhatsApp" />
-      </div>
-    </div>
+import { cn } from "@/lib/utils";
+
+export interface DockProps extends VariantProps<typeof dockVariants> {
+  className?: string;
+  magnification?: number;
+  distance?: number;
+  direction?: "top" | "middle" | "bottom";
+  children: React.ReactNode;
+}
+
+const DEFAULT_MAGNIFICATION = 60;
+const DEFAULT_DISTANCE = 140;
+
+const dockVariants = cva(
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max gap-2 rounded-2xl border p-2 backdrop-blur-md",
+);
+
+const Dock = React.forwardRef<HTMLDivElement, DockProps>(
+  (
+    {
+      className,
+      children,
+      magnification = DEFAULT_MAGNIFICATION,
+      distance = DEFAULT_DISTANCE,
+      direction = "bottom",
+      ...props
+    },
+    ref,
+  ) => {
+    const mouseX = useMotionValue(Infinity);
+
+    const renderChildren = () => {
+      return React.Children.map(children, (child) => {
+        if (React.isValidElement(child) && child.type === DockIcon) {
+          return React.cloneElement(child, {
+            ...child.props,
+            mouseX: mouseX,
+            magnification: magnification,
+            distance: distance,
+          });
+        }
+        return child;
+      });
+    };
+
+    return (
+      <motion.div
+        ref={ref}
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        {...props}
+        className={cn(dockVariants({ className }), {
+          "items-start": direction === "top",
+          "items-center": direction === "middle",
+          "items-end": direction === "bottom",
+        })}
+      >
+        {renderChildren()}
+      </motion.div>
+    );
+  },
+);
+
+Dock.displayName = "Dock";
+
+export interface DockIconProps {
+  size?: number;
+  magnification?: number;
+  distance?: number;
+  mouseX?: any;
+  className?: string;
+  children?: React.ReactNode;
+  props?: PropsWithChildren;
+}
+
+const DockIcon = ({
+  size,
+  magnification = DEFAULT_MAGNIFICATION,
+  distance = DEFAULT_DISTANCE,
+  mouseX,
+  className,
+  children,
+  ...props
+}: DockIconProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const distanceCalc = useTransform(mouseX, (val: number) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+
+    return val - bounds.x - bounds.width / 2;
+  });
+
+  let widthSync = useTransform(
+    distanceCalc,
+    [-distance, 0, distance],
+    [40, magnification, 40],
   );
-}
 
-// DockIcon component representing each icon in the dock
-interface DockIconProps {
-  icon: React.ReactNode;
-  label: string;
-}
+  let width = useSpring(widthSync, {
+    mass: 0.1,
+    stiffness: 150,
+    damping: 12,
+  });
 
-function DockIcon({ icon, label }: DockIconProps) {
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="relative group w-12 h-12 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+    <motion.div
+      ref={ref}
+      style={{ width }}
+      className={cn(
+        "flex aspect-square cursor-pointer items-center justify-center rounded-full",
+        className,
+      )}
+      {...props}
     >
-      {icon}
-      <span className="sr-only">{label}</span>
-      <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/75 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        {label}
-      </div>
-    </Button>
+      {children}
+    </motion.div>
   );
-}
+};
+
+DockIcon.displayName = "DockIcon";
+
+export { Dock, DockIcon, dockVariants };
