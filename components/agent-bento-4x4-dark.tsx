@@ -6,6 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { Brain } from 'lucide-react'
 import ShimmerButton from "@/components/ui/shimmer-button"
 import dynamic from 'next/dynamic'
+import ShinyButton from "@/components/ui/shiny-button"
+import Link from 'next/link'
+import BlurFade from "@/components/ui/blur-fade"
 
 // Dynamically import BubbleChat with SSR disabled
 const BubbleChat = dynamic(() => import('flowise-embed-react').then(mod => mod.BubbleChat), { ssr: false });
@@ -85,68 +88,168 @@ export function AgentBento_4x4Dark() {
   return (
     <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
       {agents.map((agent, index) => (
-        <Card key={agent.name} className="bg-zinc-900/50 border-zinc-800 text-zinc-100">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-zinc-100">{agent.name}</CardTitle>
-            <CardDescription className="text-zinc-400">{agent.description}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center space-y-4">
-            <img src={agent.image} alt={agent.name} className="w-32 h-32 object-cover rounded-full" />
-            <div className="flex flex-wrap gap-2 justify-center">
-              {agent.specialties.map((specialty) => (
-                <Badge key={specialty} variant="secondary" className="bg-zinc-800 text-zinc-300">
-                  {specialty}
-                </Badge>
-              ))}
-            </div>
-            <div className="text-sm text-zinc-400">
-              <Brain className="inline-block mr-2" size={16} />
-              Enneagram Type: {agent.enneagram}
-            </div>
-            {agent.name === "MOOD MNKY" && (
-              <iframe 
-                style={{borderRadius: '12px'}} 
-                src="https://open.spotify.com/embed/playlist/2YlLtBKTdrws83prQlPa6i?utm_source=generator&theme=0" 
-                width="100%" 
-                height="152" 
-                frameBorder="0" 
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy"
-              ></iframe>
-            )}
-            {agent.name === "SAGE MNKY" && (
-              <iframe 
-                style={{borderRadius: '12px'}} 
-                src="https://open.spotify.com/embed/playlist/1s2pyf6acPpttAqNObD3KB?utm_source=generator&theme=0" 
-                width="100%" 
-                height="152" 
-                frameBorder="0" 
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy"
-              ></iframe>
-            )}
-            {agent.name === "CODE MNKY" && (
-              <iframe 
-                style={{borderRadius: '12px'}} 
-                src="https://open.spotify.com/embed/playlist/5E6HfHvJSfhMFyPlNLxPiB?utm_source=generator&theme=0" 
-                width="100%" 
-                height="152" 
-                frameBorder="0" 
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy"
-              ></iframe>
-            )}
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <ShimmerButton onClick={() => handleInteractClick(agent.chatflowId)}>
-              Chat
-            </ShimmerButton>
-          </CardFooter>
-        </Card>
+        <BlurFade key={agent.name} delay={index * 0.1}>
+          <Card className="bg-zinc-900/50 border-zinc-800 text-zinc-100">
+            <CardHeader>
+              <CardTitle className="text-xl font-bold text-zinc-100">
+                <Link href={`/agents/${agent.name.toLowerCase().replace(' ', '-')}`}>
+                  <ShinyButton className="w-full">
+                    <span className="text-2xl font-bold">{agent.name}</span>
+                  </ShinyButton>
+                </Link>
+              </CardTitle>
+              <CardDescription className="text-zinc-400 text-center mt-2">{agent.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center space-y-4">
+              <BlurFade delay={0.2}>
+                <img src={agent.image} alt={agent.name} className="w-32 h-32 object-cover rounded-full" />
+              </BlurFade>
+              <BlurFade delay={0.3}>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {agent.specialties.map((specialty) => (
+                    <Badge key={specialty} variant="secondary" className="bg-zinc-800 text-zinc-300">
+                      {specialty}
+                    </Badge>
+                  ))}
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.4}>
+                <div className="text-sm text-zinc-400">
+                  <Brain className="inline-block mr-2" size={16} />
+                  Enneagram Type: {agent.enneagram}
+                </div>
+              </BlurFade>
+              {agent.name === "MOOD MNKY" && (
+                <BlurFade delay={0.5}>
+                  <iframe 
+                    style={{borderRadius: '12px'}} 
+                    src="https://open.spotify.com/embed/playlist/2YlLtBKTdrws83prQlPa6i?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowFullScreen={true}
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                  ></iframe>
+                </BlurFade>
+              )}
+              {agent.name === "SAGE MNKY" && (
+                <BlurFade delay={0.6}>
+                  <iframe 
+                    style={{borderRadius: '12px'}} 
+                    src="https://open.spotify.com/embed/playlist/1s2pyf6acPpttAqNObD3KB?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowFullScreen={true}
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                  ></iframe>
+                </BlurFade>
+              )}
+              {agent.name === "CODE MNKY" && (
+                <BlurFade delay={0.7}>
+                  <iframe 
+                    style={{borderRadius: '12px'}} 
+                    src="https://open.spotify.com/embed/playlist/5E6HfHvJSfhMFyPlNLxPiB?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowFullScreen={true}
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                  ></iframe>
+                </BlurFade>
+              )}
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <BlurFade delay={0.8}>
+                <ShimmerButton className="mt-4" onClick={() => handleInteractClick(agent.chatflowId)}>
+                  Chat
+                </ShimmerButton>
+              </BlurFade>
+            </CardFooter>
+          </Card>
+        </BlurFade>
       ))}
+      {activeAgentData && (
+        <div className="bubble-chat-rounded">
+          <BubbleChat
+            chatflowid={activeAgentData.chatflowId}
+            apiHost="https://flowise-local.moodmnky.com"
+            theme={{
+              button: {
+                backgroundColor: "#000000",
+                right: 20,
+                bottom: 20,
+                size: 48,
+                dragAndDrop: true,
+                iconColor: "white",
+                customIconSrc: "https://cdn.shopify.com/s/files/1/0693/4328/1426/files/mm-flame-logo-white.svg",
+                autoWindowOpen: {
+                  autoOpen: false,
+                  openDelay: 2,
+                  autoOpenOnMobile: false,
+                },
+              },
+              tooltip: {
+                showTooltip: false,
+                tooltipMessage: 'Hi There 👋!',
+                tooltipBackgroundColor: 'black',
+                tooltipTextColor: 'white',
+                tooltipFontSize: 10,
+              },
+              chatWindow: {
+                showTitle: true,
+                title: 'Agent Chat',
+                titleAvatarSrc: '/splash-dark.png',
+                showAgentMessages: true,
+                welcomeMessage: activeAgentData.welcomeMessage,
+                errorMessage: activeAgentData.errorMessage,
+                backgroundColor: activeAgentData.backgroundColor,
+                backgroundImage: activeAgentData.avatar,
+                height: 700,
+                width: 400,
+                fontSize: 16,
+                starterPromptFontSize: 15,
+                clearChatOnReload: true,
+                botMessage: {
+                  backgroundColor: "rgba(25, 25, 25, 0.9)",
+                  textColor: "#ffffff",
+                  showAvatar: true,
+                  avatarSrc: activeAgentData.avatar,
+                },
+                userMessage: {
+                  backgroundColor: "rgba(59, 129, 246, 0.9)",
+                  textColor: "#ffffff",
+                  showAvatar: true,
+                  avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+                },
+                textInput: {
+                  placeholder: 'Ask me anything!',
+                  backgroundColor: '#191919',
+                  textColor: '#c7c7c7',
+                  sendButtonColor: '#000000',
+                  maxChars: 280,
+                  maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 280 characters.',
+                  autoFocus: true,
+                  sendMessageSound: true,
+                  receiveMessageSound: true,
+                },
+                feedback: {
+                  color: '#303235',
+                },
+                footer: {
+                  textColor: '#303235',
+                  text: 'Powered by',
+                  company: 'MOODMNKY LLC',
+                  companyLink: 'https://moodmnky.com',
+                }
+              }
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }
