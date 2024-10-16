@@ -3,13 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
-import { DockDemo } from "@/components/dock-demo";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
 import ShinyButton from "@/components/ui/shiny-button";
 import Ripple from "@/components/ui/ripple";
 import HeroVideoDialog from "@/components/ui/hero-video-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoodCrafterComponent } from "@/components/mood-crafter";
+import { MoodCrafterStreaming } from "@/components/mood-crafter-streaming";
 
 const Card = ({ children }: { children: React.ReactNode }) => (
   <div className="p-4 mb-4 bg-transparent border border-gray-300 rounded-lg shadow-md">
@@ -47,8 +46,6 @@ export default function SageMnkyPage() {
         </header>
         
         <img src="/sage_mnky.png" alt="SAGE MNKY" className="w-64 h-64 rounded-full mb-8 mx-auto shadow-lg animate-fade-in-delay-3" />
-
-        <DockDemo />
 
         <div className="mt-12"></div>
 
@@ -110,7 +107,7 @@ export default function SageMnkyPage() {
                 />
               </div>
               <div className="flex-1 p-4">
-                <MoodCrafterComponent />
+                <MoodCrafterStreaming />
               </div>
             </div>
             <DrawerClose asChild>
@@ -119,8 +116,12 @@ export default function SageMnkyPage() {
           </DrawerContent>
         </Drawer>
 
-        <Button asChild className="mt-8 bg-black text-white hover:bg-zinc-800 text-lg font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-          <Link href="/">Return to Agent Selection</Link>
+        <Button 
+          asChild 
+          className="mt-8 bg-black text-white hover:bg-zinc-800 text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+          style={{ width: '75px', height: '30px' }} // Approximate 75% reduction
+        >
+          <Link href="/">Return</Link>
         </Button>
       </div>
     </div>

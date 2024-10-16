@@ -3,7 +3,6 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
-import { DockDemo } from "@/components/dock-demo";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
 import ShinyButton from "@/components/ui/shiny-button";
 import { MoodCrafterStreaming } from "@/components/mood-crafter-streaming";
@@ -51,8 +50,6 @@ export default function MoodMnkyPage() {
         </header>
         
         <img src="/mood_mnky.png" alt="MOOD MNKY" className="w-64 h-64 rounded-full mb-8 mx-auto shadow-lg animate-fade-in-delay-3" />
-
-        <DockDemo />
 
         <div className="mt-12"></div>
 
@@ -114,8 +111,12 @@ export default function MoodMnkyPage() {
           </DrawerContent>
         </Drawer>
 
-        <Button asChild className="mt-8 bg-black text-white hover:bg-zinc-800 text-lg font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-          <Link href="/">Return to Agent Selection</Link>
+        <Button 
+          asChild 
+          className="mt-8 bg-black text-white hover:bg-zinc-800 text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+          style={{ width: '75px', height: '30px' }} // Approximate 75% reduction
+        >
+          <Link href="/">Return</Link>
         </Button>
       </div>
     </div>
