@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { DockDemo } from "@/components/dock-demo";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
-import ShinyButton from "@/components/ui/shiny-button"; // Import ShinyButton
+import ShinyButton from "@/components/ui/shiny-button";
+import { MoodCrafterComponent } from "@/components/mood-crafter";
 
 export default function MoodMnkyPage() {
   return (
@@ -39,37 +40,44 @@ export default function MoodMnkyPage() {
               <ShinyButton className="py-4 font-medium hover:underline">Mood's Dossier</ShinyButton>
             </DrawerTrigger>
             <DrawerContent>
-              <DrawerHeader>
-                <DrawerDescription>
-                  <section className="mb-4">
-                    <h3 className="text-lg font-semibold">Who am I</h3>
-                    <p className="text-sm text-muted-foreground">
-                      MOOD MNKY is your personal vibe curator, designed to help you craft a fragrance that reflects your personality, mood, and the experience you want to create.
-                    </p>
-                  </section>
-                  <section className="mb-4">
-                    <h3 className="text-lg font-semibold">What I do</h3>
-                    <p className="text-sm text-muted-foreground">
-                      MOOD MNKY uses advanced AI to help you create a one-of-a-kind fragrance blend tailored specifically to your preferences.
-                    </p>
-                  </section>
-                  <section className="mb-4">
-                    <h3 className="text-lg font-semibold">Why choose me</h3>
-                    <p className="text-sm text-muted-foreground">
-                      MOOD MNKY is more than a fragrance tool—it's a journey into self-discovery.
-                    </p>
-                  </section>
-                  <section>
-                    <h3 className="text-lg font-semibold">Skill set</h3>
-                    <ul className="text-sm list-disc list-inside space-y-2 text-muted-foreground">
-                      <li>Personalized Fragrance Creation</li>
-                      <li>Fragrance Library Access</li>
-                      <li>Mood-Based Suggestions</li>
-                      <li>Curated for Seasons and Events</li>
-                    </ul>
-                  </section>
-                </DrawerDescription>
-              </DrawerHeader>
+              <div className="flex flex-col md:flex-row md:space-x-8">
+                <div className="flex-1 p-4">
+                  <DrawerHeader>
+                    <DrawerDescription>
+                      <section className="mb-4">
+                        <h3 className="text-lg font-semibold">Who am I</h3>
+                        <p className="text-sm text-muted-foreground">
+                          MOOD MNKY is your personal vibe curator, designed to help you craft a fragrance that reflects your personality, mood, and the experience you want to create.
+                        </p>
+                      </section>
+                      <section className="mb-4">
+                        <h3 className="text-lg font-semibold">What I do</h3>
+                        <p className="text-sm text-muted-foreground">
+                          MOOD MNKY uses advanced AI to help you create a one-of-a-kind fragrance blend tailored specifically to your preferences.
+                        </p>
+                      </section>
+                      <section className="mb-4">
+                        <h3 className="text-lg font-semibold">Why choose me</h3>
+                        <p className="text-sm text-muted-foreground">
+                          MOOD MNKY is more than a fragrance tool—it's a journey into self-discovery.
+                        </p>
+                      </section>
+                      <section>
+                        <h3 className="text-lg font-semibold">Skill set</h3>
+                        <ul className="text-sm list-disc list-inside space-y-2 text-muted-foreground">
+                          <li>Personalized Fragrance Creation</li>
+                          <li>Fragrance Library Access</li>
+                          <li>Mood-Based Suggestions</li>
+                          <li>Curated for Seasons and Events</li>
+                        </ul>
+                      </section>
+                    </DrawerDescription>
+                  </DrawerHeader>
+                </div>
+                <div className="flex-1 p-4">
+                  <MoodCrafterComponent />
+                </div>
+              </div>
               <DrawerClose asChild>
                 <button className="mt-4">Close</button>
               </DrawerClose>
