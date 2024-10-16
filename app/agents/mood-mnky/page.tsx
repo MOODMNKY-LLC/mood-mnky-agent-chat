@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { DockDemo } from "@/components/dock-demo";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
 import ShinyButton from "@/components/ui/shiny-button";
-import { MoodCrafterComponent } from "@/components/mood-crafter";
+import { MoodCrafterStreaming } from "@/components/mood-crafter-streaming";
+import HeroVideoDialog from "@/components/ui/hero-video-dialog"; // Import HeroVideoDialog
 
 export default function MoodMnkyPage() {
   return (
@@ -74,11 +75,15 @@ export default function MoodMnkyPage() {
                     </DrawerDescription>
                   </DrawerHeader>
                 </div>
-                <div className="flex-1 p-4 bg-gray-200 rounded-lg shadow-md"> {/* Square container */}
-                  {/* Content can be added here if needed */}
+                <div className="flex-1 p-4 rounded-lg shadow-md">
+                  <HeroVideoDialog
+                    videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ" // Example video URL
+                    thumbnailSrc="/mood_dojo.png" // Use mood_dojo.png as the thumbnail
+                    thumbnailAlt="Video thumbnail"
+                  />
                 </div>
                 <div className="flex-1 p-4">
-                  <MoodCrafterComponent />
+                  <MoodCrafterStreaming />
                 </div>
               </div>
               <DrawerClose asChild>
