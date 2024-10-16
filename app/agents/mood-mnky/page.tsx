@@ -74,6 +74,9 @@ export default function MoodMnkyPage() {
                     </DrawerDescription>
                   </DrawerHeader>
                 </div>
+                <div className="flex-1 p-4 bg-gray-200 rounded-lg shadow-md"> {/* Square container */}
+                  {/* Content can be added here if needed */}
+                </div>
                 <div className="flex-1 p-4">
                   <MoodCrafterComponent />
                 </div>
