@@ -9,23 +9,17 @@ import { Label } from "@/components/ui/label"
 import { AlertCircle, Loader2, Camera } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { FlowiseClient } from 'flowise-sdk'
 
-const client = new FlowiseClient({ baseUrl: 'https://flowise-local.moodmnky.com' });
-
-function PrettyJSON({ data }: { data: any }) {
-  return (
-    <pre
-      className="text-sm"
-      style={{
-        tabSize: 2,
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-all',
-      }}
-    >
-      {JSON.stringify(data, null, 2)}
-    </pre>
-  )
+async function query(formData: FormData) {
+  const response = await fetch(
+    "https://flowise-local.moodmnky.com/api/v1/prediction/bdcb5524-5900-4028-addb-ba36d88128ba",
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+  const result = await response.json();
+  return result;
 }
 
 export function MoodCrafterStreaming() {
@@ -51,29 +45,20 @@ export function MoodCrafterStreaming() {
     setError(null)
     setResponse('')
 
-    const formData = new FormData()
+    let formData = new FormData()
     if (photoReference) {
       formData.append("files", photoReference)
     }
     formData.append("question", mood)
     formData.append("systemMessage", "example")
     formData.append("maxIterations", "1")
-    formData.append("openAIApiKey", "example") // Add your key here
+    
+    // Use the environment variable here
+    formData.append("openAIApiKey", process.env.NEXT_PUBLIC_OPEN_AI_API_KEY || '')
 
     try {
-      const prediction = await client.createPrediction({
-        chatflowId: 'bdcb5524-5900-4028-addb-ba36d88128ba',
-        question: mood,
-        streaming: true,
-      });
-
-      for await (const chunk of prediction) {
-        if (chunk.event === 'token') {
-          setResponse(prev => prev + chunk.data)
-        } else if (chunk.event === 'error') {
-          throw new Error(chunk.data)
-        }
-      }
+      const result = await query(formData)
+      setResponse(result.text || JSON.stringify(result, null, 2))
     } catch (error) {
       console.error("Error crafting your mood:", error)
       setError("An error occurred while crafting your mood. Please try again.")
