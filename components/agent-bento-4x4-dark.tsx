@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 import ShinyButton from "@/components/ui/shiny-button"
 import Link from 'next/link'
 import BlurFade from "@/components/ui/blur-fade"
+import BgAudioPlayer from '@/components/bg-audio-player'
 
 // Dynamically import BubbleChat with SSR disabled
 const BubbleChat = dynamic(() => import('flowise-embed-react').then(mod => mod.BubbleChat), { ssr: false });
@@ -119,48 +120,9 @@ export function AgentBento_4x4Dark() {
                   Enneagram Type: {agent.enneagram}
                 </div>
               </BlurFade>
-              {agent.name === "MOOD MNKY" && (
-                <BlurFade delay={0.5}>
-                  <iframe 
-                    style={{borderRadius: '12px'}} 
-                    src="https://open.spotify.com/embed/playlist/2YlLtBKTdrws83prQlPa6i?utm_source=generator&theme=0" 
-                    width="100%" 
-                    height="152" 
-                    frameBorder="0" 
-                    allowFullScreen={true}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                  ></iframe>
-                </BlurFade>
-              )}
-              {agent.name === "SAGE MNKY" && (
-                <BlurFade delay={0.6}>
-                  <iframe 
-                    style={{borderRadius: '12px'}} 
-                    src="https://open.spotify.com/embed/playlist/1s2pyf6acPpttAqNObD3KB?utm_source=generator&theme=0" 
-                    width="100%" 
-                    height="152" 
-                    frameBorder="0" 
-                    allowFullScreen={true}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                  ></iframe>
-                </BlurFade>
-              )}
-              {agent.name === "CODE MNKY" && (
-                <BlurFade delay={0.7}>
-                  <iframe 
-                    style={{borderRadius: '12px'}} 
-                    src="https://open.spotify.com/embed/playlist/5E6HfHvJSfhMFyPlNLxPiB?utm_source=generator&theme=0" 
-                    width="100%" 
-                    height="152" 
-                    frameBorder="0" 
-                    allowFullScreen={true}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                  ></iframe>
-                </BlurFade>
-              )}
+              <BlurFade delay={0.5}>
+                <BgAudioPlayer agentName={agent.name.toLowerCase().replace(' ', '-')} />
+              </BlurFade>
             </CardContent>
             <CardFooter className="flex justify-center">
               <BlurFade delay={0.8}>
