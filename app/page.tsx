@@ -12,11 +12,13 @@ export default function Index() {
   const searchParams = useSearchParams()
   
   useEffect(() => {
-    const access_token = searchParams.get('access_token')
-    if (access_token) {
-      localStorage.setItem('spotify_access_token', access_token)
-      // Remove the access token from the URL
-      window.history.replaceState({}, document.title, "/")
+    if (searchParams) {
+      const access_token = searchParams.get('access_token')
+      if (access_token) {
+        localStorage.setItem('spotify_access_token', access_token)
+        // Remove the access token from the URL
+        window.history.replaceState({}, document.title, "/")
+      }
     }
   }, [searchParams])
 
