@@ -6,7 +6,6 @@ import Hero from "@/components/hero"
 import { AgentBento_4x4Dark } from "@/components/agent-bento-4x4-dark"
 import BlurFade from "@/components/ui/blur-fade"
 import BlurIn from "@/components/ui/blur-in"
-import { SemiTransparentCompactPillAudioPlayerComponent } from "@/components/semi-transparent-compact-pill-audio-player"
 
 export default function Index() {
   const searchParams = useSearchParams()
@@ -33,7 +32,6 @@ export default function Index() {
           <AgentBento_4x4Dark />
         </BlurFade>
       </main>
-      <SemiTransparentCompactPillAudioPlayerComponent />
     </>
   )
 }
