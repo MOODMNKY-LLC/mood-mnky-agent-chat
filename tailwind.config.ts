@@ -138,22 +138,6 @@ const config = {
   				'50%': {
   					transform: 'translate(-50%, -50%) scale(0.9)'
   				}
-  			},
-  			marquee: {
-  				from: {
-  					transform: 'translateX(0)'
-  				},
-  				to: {
-  					transform: 'translateX(calc(-100% - var(--gap)))'
-  				}
-  			},
-  			'marquee-vertical': {
-  				from: {
-  					transform: 'translateY(0)'
-  				},
-  				to: {
-  					transform: 'translateY(calc(-100% - var(--gap)))'
-  				}
   			}
   		},
   		animation: {
@@ -165,9 +149,7 @@ const config = {
   			shine: 'shine var(--duration) infinite linear',
   			'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
   			orbit: 'orbit calc(var(--duration)*1s) linear infinite',
-  			ripple: 'ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite',
-  			marquee: 'marquee var(--duration) infinite linear',
-  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
+  			ripple: 'ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite'
   		}
   	}
   },
