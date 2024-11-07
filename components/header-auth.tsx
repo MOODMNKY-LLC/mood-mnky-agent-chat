@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
+import BgAudioPlayer from "@/components/bg-audio-player";
 
 export default async function AuthButton() {
   const {
@@ -70,6 +71,7 @@ export default async function AuthButton() {
           </Button>
         </div>
       )}
+      <BgAudioPlayer />
     </>
   );
 }

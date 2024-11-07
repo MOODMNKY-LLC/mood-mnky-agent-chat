@@ -1,28 +1,24 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Volume1 } from 'lucide-react'
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Volume1, Minus, Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
-interface BgAudioPlayerProps {
-  agentName?: string
-}
-
-export default function BgAudioPlayer({ agentName }: BgAudioPlayerProps) {
+export default function BgAudioPlayer() {
   const [audioFiles, setAudioFiles] = useState<string[]>([])
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
-  const [volume, setVolume] = useState(0.5) // Set initial volume to 50%
+  const [volume, setVolume] = useState(1)
   const [autoplayAttempted, setAutoplayAttempted] = useState(false)
   
   const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
+    // Fetch audio files
     const fetchAudioFiles = async () => {
       try {
-        const url = agentName ? `/api/audio-files?agent=${agentName}` : '/api/audio-files'
-        const response = await fetch(url)
+        const response = await fetch('/api/audio-files')
         if (response.ok) {
           const files = await response.json()
           setAudioFiles(files)
@@ -35,14 +31,11 @@ export default function BgAudioPlayer({ agentName }: BgAudioPlayerProps) {
     }
 
     fetchAudioFiles()
-  }, [agentName])
+  }, [])
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio || audioFiles.length === 0) return
-
-    // Set initial volume to 50%
-    audio.volume = 0.5
 
     const attemptAutoplay = async () => {
       try {
@@ -106,6 +99,13 @@ export default function BgAudioPlayer({ agentName }: BgAudioPlayerProps) {
     setIsMuted(!isMuted)
   }
 
+  const adjustVolume = (direction: 'up' | 'down') => {
+    setVolume(prevVolume => {
+      const newVolume = direction === 'up' ? prevVolume + 0.1 : prevVolume - 0.1
+      return Math.max(0, Math.min(1, newVolume))
+    })
+  }
+
   const getVolumeIcon = () => {
     if (isMuted || volume === 0) return <VolumeX className="h-4 w-4" />
     if (volume < 0.5) return <Volume1 className="h-4 w-4" />
@@ -113,10 +113,13 @@ export default function BgAudioPlayer({ agentName }: BgAudioPlayerProps) {
   }
 
   return (
-    <div className="relative group">
+    <div className="fixed bottom-4 left-4 group">
+      <div className="mb-2 bg-background/70 backdrop-blur-sm border border-border/50 rounded-md p-2 text-xs font-medium text-foreground/80 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-full left-0 mb-2">
+        Now Playing: {audioFiles[currentTrackIndex] || 'Loading...'}
+      </div>
       <div className="bg-background/70 backdrop-blur-sm border border-border/50 rounded-full shadow-lg p-2 flex items-center space-x-2">
         {audioFiles.length > 0 && (
-          <audio ref={audioRef} src={`/audio/${agentName ? `${agentName}/` : ''}${audioFiles[currentTrackIndex]}`} loop={true} />
+          <audio ref={audioRef} src={`/audio/${audioFiles[currentTrackIndex]}`} loop={true} />
         )}
         
         <Button onClick={() => skipTrack('backward')} variant="ghost" size="icon" className="h-8 w-8 shrink-0 bg-transparent hover:bg-white/20">
@@ -131,13 +134,21 @@ export default function BgAudioPlayer({ agentName }: BgAudioPlayerProps) {
           <SkipForward className="h-4 w-4" />
         </Button>
 
+        <Button onClick={() => adjustVolume('down')} variant="ghost" size="icon" className="h-8 w-8 shrink-0 bg-transparent hover:bg-white/20">
+          <Minus className="h-4 w-4" />
+        </Button>
+
+        <Button onClick={() => adjustVolume('up')} variant="ghost" size="icon" className="h-8 w-8 shrink-0 bg-transparent hover:bg-white/20">
+          <Plus className="h-4 w-4" />
+        </Button>
+
         <Button onClick={toggleMute} variant="ghost" size="icon" className="h-8 w-8 shrink-0 bg-transparent hover:bg-white/20">
           {getVolumeIcon()}
         </Button>
       </div>
 
-      <div className="absolute bottom-full left-0 mb-2 bg-background/70 backdrop-blur-sm border border-border/50 rounded-md p-2 text-xs font-medium text-foreground/80 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        Now Playing: {audioFiles[currentTrackIndex] || 'Loading...'}
+      <div className="mt-2 bg-background/70 backdrop-blur-sm border border-border/50 rounded-md p-2 text-xs font-medium text-foreground/80 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute top-full left-0 mt-2">
+        {!isPlaying && autoplayAttempted ? "Click play to start music" : ""}
       </div>
     </div>
   )
