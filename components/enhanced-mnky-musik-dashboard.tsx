@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { Artist } from '@/types/lidarr'
 import { ArtistCard } from './artist-card'
 import { 
@@ -27,114 +27,107 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { fetchArtists, fetchCalendar, fetchDiskSpace, fetchHealth, fetchQueue, fetchWantedAlbums } from '@/lib/lidarr-api'
 import Marquee from '@/components/ui/marquee'
+import { 
+  fetchArtists, 
+  fetchCalendar, 
+  fetchDiskSpace,
+  fetchHealth, 
+  fetchQueue, 
+  fetchWantedAlbums 
+} from '@/lib/lidarr-api'
 
+// Type definitions
 interface DiskSpace {
-  path: string;
-  freeSpace: number;
-  totalSpace: number;
-  percentUsed: number;
+  path: string
+  freeSpace: number
+  totalSpace: number
+  percentUsed: number
 }
 
 interface HealthResource {
-  id: number;
-  source?: string;
-  type: string; // This maps to HealthCheckResult enum in the API
-  message?: string;
-  wikiUrl?: string;
+  id: number
+  source?: string
+  type: string
+  message?: string
+  wikiUrl?: string
 }
 
 interface AlbumResource {
-  id: number;
-  title: string;
-  releaseDate: string | null;
-  artistId: number;
-  foreignAlbumId: string | null;
-  monitored: boolean;
-  anyReleaseOk: boolean;
-  profileId: number;
-  duration: number;
-  albumType: string | null;
-  // ... other properties as needed
+  id: number
+  title: string
+  releaseDate: string | null
+  artistId: number
+  foreignAlbumId: string | null
+  monitored: boolean
+  anyReleaseOk: boolean
+  profileId: number
+  duration: number
+  albumType: string | null
 }
 
 interface Quality {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 interface Revision {
-  version: number;
-  real: number;
-  isRepack: boolean;
+  version: number
+  real: number
+  isRepack: boolean
 }
 
 interface QualityModel {
-  quality: Quality;
-  revision: Revision;
+  quality: Quality
+  revision: Revision
 }
 
 interface QueueItem {
-  id: number;
-  title: string;
-  progress: number;
-  artistId?: number;
-  albumId?: number;
-  artist?: Artist;
-  album?: AlbumResource;
-  quality?: QualityModel;
-  protocol?: string;
-  downloadClient?: string;
+  id: number
+  title: string
+  progress: number
+  artistId?: number
+  albumId?: number
+  artist?: Artist
+  album?: AlbumResource
+  quality?: QualityModel
+  protocol?: string
+  downloadClient?: string
 }
 
-const NAVIGATION_ITEMS = [
-  { 
-    name: 'Home', 
-    icon: Home,
-    path: '/'
-  },
-  { 
-    name: 'Artists', 
-    icon: User,
-    path: '/artists'
-  },
-  { 
-    name: 'Albums', 
-    icon: AlbumIcon,
-    path: '/albums'
-  },
-  { 
-    name: 'Queue', 
-    icon: List,
-    path: '/queue'
-  },
-  { 
-    name: 'Calendar', 
-    icon: Calendar,
-    path: '/calendar'
-  },
-  { 
-    name: 'Settings', 
-    icon: Settings,
-    path: '/settings'
-  }
-] as const
+// Define navigation items type
+type NavigationPath = '/' | '/artists' | '/albums' | '/queue' | '/calendar' | '/settings'
+type ActiveSection = NavigationPath
 
-type NavigationItem = typeof NAVIGATION_ITEMS[number]
-type ActiveSection = NavigationItem['path']
+interface NavigationItem {
+  name: string
+  path: NavigationPath
+  icon: React.ElementType
+}
+
+// Define navigation items
+const NAVIGATION_ITEMS: NavigationItem[] = [
+  { name: 'Home', path: '/', icon: Home },
+  { name: 'Artists', path: '/artists', icon: User },
+  { name: 'Albums', path: '/albums', icon: AlbumIcon },
+  { name: 'Queue', path: '/queue', icon: Download },
+  { name: 'Calendar', path: '/calendar', icon: Calendar },
+  { name: 'Settings', path: '/settings', icon: Settings }
+]
 
 export function EnhancedMnkyMusikDashboard() {
+  // State management
   const [artists, setArtists] = useState<Artist[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeSection, setActiveSection] = useState<string>('/')
+  const [activeSection, setActiveSection] = useState<ActiveSection>('/')
   const [upcomingReleases, setUpcomingReleases] = useState<AlbumResource[]>([])
   const [diskSpace, setDiskSpace] = useState<DiskSpace[]>([])
   const [queueItems, setQueueItems] = useState<QueueItem[]>([])
   const [healthIssues, setHealthIssues] = useState<HealthResource[]>([])
-  const [wantedAlbums, setWantedAlbums] = useState([])
+  const [wantedAlbums, setWantedAlbums] = useState<AlbumResource[]>([])
 
+  // Data fetching
   useEffect(() => {
     const loadData = async () => {
       try {

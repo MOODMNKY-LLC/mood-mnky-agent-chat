@@ -1,17 +1,11 @@
-import { syncArtists } from '@/lib/supabase/sync'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST() {
+export async function GET() {
   try {
-    await syncArtists(false)
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ message: 'Direct API calls only' }, { status: 200 })
   } catch (error) {
-    console.error('Sync failed:', error)
-    return NextResponse.json(
-      { error: 'Failed to sync data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 } 
