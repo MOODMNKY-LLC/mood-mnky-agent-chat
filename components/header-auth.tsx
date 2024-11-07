@@ -71,7 +71,10 @@ export default async function AuthButton() {
           </Button>
         </div>
       )}
+<<<<<<< HEAD
       <BgAudioPlayer />
+=======
+>>>>>>> parent of 8f71aea (Media Page Add)
     </>
   );
 }

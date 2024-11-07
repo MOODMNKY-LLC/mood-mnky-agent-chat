@@ -7,6 +7,10 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";  // Import Next.js Head component
+<<<<<<< HEAD
+=======
+import BgAudioPlayer from "@/components/bg-audio-player";  // Import the BgAudioPlayer
+>>>>>>> parent of 8f71aea (Media Page Add)
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -38,8 +42,18 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen flex flex-col items-center justify-center">
+<<<<<<< HEAD
             <div className="flex-1 w-full flex flex-col items-center">
               <nav className="sticky top-0 w-full flex justify-center h-16 backdrop-blur-md bg-black/70 border-b border-white/10 z-50 shadow-lg">
+=======
+            {/* Add the BgAudioPlayer here */}
+            <div className="fixed left-4 top-1/4 transform -translate-y-1/2 z-50">
+              <BgAudioPlayer />
+            </div>
+            
+            <div className="flex-1 w-full flex flex-col items-center">
+              <nav className="sticky top-0 w-full flex justify-center h-16 backdrop-blur-md bg-black/70 border-b border-white/10 z-40 shadow-lg">
+>>>>>>> parent of 8f71aea (Media Page Add)
                 <div className="w-full max-w-5xl flex justify-between items-center p-2 px-4 text-sm"> {/* Adjust padding here */}
                   <div className="flex gap-5 items-center font-semibold">
                     <a href="/" className="focus:outline-none">
